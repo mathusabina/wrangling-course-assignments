@@ -67,13 +67,6 @@ create 'data_self_reports_and_their_amp_data' by joining data_selfreport_summary
 ```{r}
 data_self_reports_and_their_amp_data <- left_join(data_selfreport_summary_subset,data_amp_summary_subset,by= "unique_id")
 
-#chatgpt
-data_self_reports_and_their_amp_data <- data_selfreport_summary_subset %>%
-  filter(!is.na(unique_id)) %>%
-  left_join(data_amp_summary_subset, by = "unique_id")
- # Exclude NA in unique_id from self-report data
-
-#NA is still in it 
 ```
 
 ## Practice 3
@@ -86,7 +79,7 @@ do the opposite: create 'data_amp_data_and_their_self_reports' by joining data_a
 
 data_amp_data_and_their_self_reports <- right_join(data_selfreport_summary_subset,data_amp_summary_subset, by="unique_id")
 
-# again Problem with NA
+
 ```
 
 ## Practice 4
@@ -112,7 +105,11 @@ combined_ids <- full_join(data_age_gender_subset,
                           data_amp_summary_subset, 
                           by = "unique_id") %>% full_join(data_selfreport_summary_subset, by = "unique_id")
 
-data_missing_ids <- anti_join(combined_ids,data_unique_id_subset,by="unique_id") %>%  select(unique_id) %>% distinct()
+data_missing_ids <- anti_join(combined_ids,data_unique_id_subset,by="unique_id") %>%  select(unique_id) %>% distinct(unique_id)
+
+
+
+#problem with full_join: we get more duplicates than with other joins --> in final assignment try to have left or right join 
 
 
 ```
