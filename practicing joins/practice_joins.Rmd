@@ -1,6 +1,6 @@
 ---
 title: "Practicing joins"
-author: "Template: Ian Hussey; content: [Student name]"
+author: "Template: Ian Hussey; content: [Mathumitha]"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
@@ -53,7 +53,10 @@ create 'data_combined' by joining data_amp_summary_subset and data_age_gender_su
 
 ```{r}
 
-# data_combined <- 
+data_combined <- full_join(data_amp_summary_subset,data_age_gender_subset,by= c("unique_id"))
+
+
+?full_join
 
 ```
 
@@ -62,9 +65,15 @@ create 'data_combined' by joining data_amp_summary_subset and data_age_gender_su
 create 'data_self_reports_and_their_amp_data' by joining data_selfreport_summary_subset and data_amp_summary_subset so that all participants have self-report data, + AMP data if available. which join is this? implement it. 
 
 ```{r}
+data_self_reports_and_their_amp_data <- left_join(data_selfreport_summary_subset,data_amp_summary_subset,by= "unique_id")
 
-# data_self_reports_and_their_amp_data <- 
+#chatgpt
+data_self_reports_and_their_amp_data <- data_selfreport_summary_subset %>%
+  filter(!is.na(unique_id)) %>%
+  left_join(data_amp_summary_subset, by = "unique_id")
+ # Exclude NA in unique_id from self-report data
 
+#NA is still in it 
 ```
 
 ## Practice 3
@@ -75,6 +84,9 @@ do the opposite: create 'data_amp_data_and_their_self_reports' by joining data_a
 
 # data_amp_data_and_their_self_reports <- 
 
+data_amp_data_and_their_self_reports <- right_join(data_selfreport_summary_subset,data_amp_summary_subset, by="unique_id")
+
+# again Problem with NA
 ```
 
 ## Practice 4
@@ -83,7 +95,7 @@ create data_combined_2 by joining 'data_combined' and data_selfreport_summary_su
 
 ```{r}
 
-# data_combined_2 <- 
+data_combined_2<- inner_join(data_combined, data_selfreport_summary_subset, by = "unique_id")
 
 ```
 
@@ -92,8 +104,16 @@ create data_combined_2 by joining 'data_combined' and data_selfreport_summary_su
 create 'data_missing_ids' which should list the unique_ids are missing from data_unique_id_subset but are present in at least one of data_age_gender_subset, data_amp_summary_subset, and data_selfreport_summary_subset. This will require two different joins. Which? Implement them.
 
 ```{r}
+colnames(data_age_gender_subset)
+colnames(data_amp_summary_subset)
+colnames(data_selfreport_summary_subset)
 
-# data_missing_ids <- 
+combined_ids <- full_join(data_age_gender_subset,
+                          data_amp_summary_subset, 
+                          by = "unique_id") %>% full_join(data_selfreport_summary_subset, by = "unique_id")
+
+data_missing_ids <- anti_join(combined_ids,data_unique_id_subset,by="unique_id") %>%  select(unique_id) %>% distinct()
+
 
 ```
 
