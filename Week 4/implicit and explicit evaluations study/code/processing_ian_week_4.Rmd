@@ -144,34 +144,23 @@ data_amp_tidied <- data_amp_raw |>
          rt = latency) |>
   select(unique_id, block_type, rt) |>
   filter(block_type == "test")
+
 # are there duplicates or incomplete data?
 data_amp_tidied |>
   count(unique_id, name = "n_trials") |>
   count(n_trials, name = "n_participants") |>
   arrange(desc(n_participants))
+
 data_complete_amp <- data_amp_tidied |>
   count(unique_id, name = "n_trials") |>
   filter(n_trials == 72) 
+
 temp <- data_amp_tidied |>
   semi_join(data_complete_amp, by = "unique_id")
+
   
 # rm(data_complete_amp) # remove from environment
-Create an exclusion variable `exclude_amp_performance` based on AMP performance: "exclude" if more than 10% of the test block trials trials are < 100ms, or "include" if not.
 
-Create an exclusion variable `exclude_amp_completeness` based on the AMP having the right number of trials.
-
-```{r}
-
-data_amp_performance_criteria <- data_amp_raw |>
-  rename(unique_id = subject,
-         block_type = blockcode,
-         rt = latency) |>
-  select(unique_id, block_type, rt) |>
-  filter(block_type == "test") |>
-  #mutate(fast_trial = rt < 100)
-  mutate(fast_trial = ifelse(rt < 100, 1, 0)) |>
-  group_by(unique_id) |>
-  summarise(percent_fast_trials = mean(fast_trial)*100)
 
 ```
 
@@ -184,11 +173,13 @@ data_amp_performance_criteria <- data_amp_raw |>
   rename(unique_id = subject,
          block_type = blockcode,
          rt = latency) |>
-   |>
+  select(unique_id, block_type, rt) |>
+  filter(block_type == "test") |>
   #mutate(fast_trial = rt < 100)
   mutate(fast_trial = ifelse(rt < 100, 1, 0)) |>
   group_by(unique_id) |>
   summarise(percent_fast_trials = mean(fast_trial)*100) 
+
 colnames(data_amp_raw)
 ```
 # Score measures
