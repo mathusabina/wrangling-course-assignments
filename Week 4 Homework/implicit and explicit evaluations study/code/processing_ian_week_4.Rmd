@@ -223,18 +223,20 @@ data_selfreport_tidied <- data_selfreport_raw |>
 
 
 # homework 
-TODO - 14/10
-- replace all non 1-7 numbers in `response` with NA
-- count number of unique_ids with correct/wrong number of responses
-- Exclude them
-- check your exclusions worked.
-- use: mutate, group_by, summarize, _join
+#TODO - 14/10
+#- replace all non 1-7 numbers in `response` with NA
+#- count number of unique_ids with correct/wrong number of responses
+#- Exclude them
+#- check your exclusions worked.
+#- use: mutate, group_by, summarize, _join
 
 
 
 data_selfreport_homework <- data_selfreport_tidied |>
-  mutate(response = ifelse(response %in% 1:7, response, NA)) 
-
+  mutate(response = ifelse(response %in% 1:7, response, NA)) |>
+  mutate(response = as.numeric(response)) |>
+  mean(response, na.rm = TRUE)
+  
 
 data_selfreport_homework |>
   count(unique_id, name = "n_trials") |>
