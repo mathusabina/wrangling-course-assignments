@@ -1,6 +1,6 @@
 ---
 title: "Practicing data wrangling"
-author: "Template: Ian Hussey; content: [Student name]"
+author: "Template: Ian Hussey; content: [Mathu]"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
@@ -77,6 +77,13 @@ A very early step in any data processing is to understand how many rows are in a
 ```{r}
 
 nrow(data_demographics_raw)
+nrow(data_selfreport_raw)
+nrow(data_amp_raw)
+
+
+# Lösung:
+
+nrow(data_demographics_raw)
 
 nrow(data_selfreport_raw)
 
@@ -85,13 +92,21 @@ nrow(data_amp_raw)
 ```
 
 - Why are there different number of rows in the three data frames when this data all comes from the same participants? 
-- Why are the numbers not round?
+data_demographics_raw |> 
+count(subject)
+data_selfreport_raw: 4 kind of trails 
+data_amp_raw: each person has several lines for each task 
 
-# The pipe (%>% or %>%) 
+- Why are the numbers not round?
+missing data
+douple trial for specific participants 
+the need to be removed 
+
+# The pipe (%>% or |>) 
 
 `%>%` is the original pipe created for the {magrittr} package and used throughout the tidyverse packages. It is slightly slower but also more flexible.
 
-`%>%` is a version of the pipe more recently added to base-R. It is slightly faster but less flexible. 
+`|>` is a version of the pipe more recently added to base-R. It is slightly faster but less flexible. 
 
 If you're not sure, it's easier to use `%>%`. 
 
@@ -100,6 +115,13 @@ If you're not sure, it's easier to use `%>%`.
 The output of what is left of the pipe is used as the input to the right of the pipe, usually as the first argument or the data argument.
 
 ```{r}
+
+? clean_names: 
+# -Converts all names to lowercase.
+# -Replaces spaces, special characters, and punctuation with underscores.
+# -Removes any duplicated underscores.
+# -Ensures that all names start with a letter.
+# -Converts accented characters to their ASCII equivalents.
 
 # use a function without the pipe
 example_without_pipe <- clean_names(data_demographics_raw)
@@ -181,6 +203,8 @@ data_amp_clean_names <- clean_names(data_amp_raw)
 How would you know what variables are in a data frame? You can view the data frame, but it can also be useful to print them. Knowing what you have is one of the first steps to working with it.
 
 ```{r}
+
+#Lösung: 
 
 # print all column names
 colnames(data_demographics_clean_names)
