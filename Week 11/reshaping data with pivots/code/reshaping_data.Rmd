@@ -1,6 +1,6 @@
 ---
 title: "Reshaping data with {tidyr}' pivot_wider() and pivot_longer()"
-author: "Template: Ian Hussey; Content: [student name]"
+author: "Template: Ian Hussey; Content: [mathu]"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
