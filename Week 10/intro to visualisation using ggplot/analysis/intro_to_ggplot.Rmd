@@ -30,22 +30,31 @@ dir.create("plots")
 
 library(readr)
 library(ggplot2)
-install.packages("datasauRus")
-library(datasauRus) 
+
 library(scales)
 library(dplyr)
 library(tidyr)
-install.packages("plotrix")
-library(plotrix) 
-install.packages("devtools")
-devtools::install_github("matthewbjane/ThemePark")
-library(ThemePark)
-library(patchwork)
+
 library(janitor)
 library(knitr)
 library(kableExtra)
 
 ```
+
+```{r}
+install.packages("datasauRus")
+library(datasauRus)
+
+install.packages("plotrix")
+library(plotrix)
+
+
+
+install.packages("patchwork")
+library(patchwork)
+
+```
+
 
 # Why plot data?
 
@@ -335,27 +344,28 @@ Make a similar plot for the self-reports.
 
 #not done 
 
-summary_self-report <- data_after_exclusions %>%
+# Summarize data for self-reports
+summary_self_reports <- data_after_exclusions %>%
   group_by(gender) %>%
-  summarize(Self-report_mean = mean(mean_self_report),
-            amp_se = plotrix::std.error(mean_self_report))
+  summarize(self_report_mean = mean(mean_self_report),
+            self_report_se = plotrix::std.error(mean_self_report))
 
-
-ggplot(data = summary_amp, 
+# Plot the summarized data
+ggplot(data = summary_self_reports, 
        aes(x = gender, 
-           y = amp_mean)) +
-  geom_col(fill = "#0b6623", # note that you can specify specific colors using hex codes or names
+           y = self_report_mean)) +
+  geom_col(fill = "#4682B4", # A different color for variety
            color = "black", 
            width = 0.6) +
-  geom_errorbar(aes(ymin = amp_mean - amp_se, 
-                    ymax = amp_mean + amp_se), 
+  geom_errorbar(aes(ymin = self_report_mean - self_report_se, 
+                    ymax = self_report_mean + self_report_se), 
                 width = 0.1, 
                 color = "black") +
-  labs(title = "Bar Plot of with Standard Errors",
+  labs(title = "Bar Plot of Self-Report Scores with Standard Errors",
        x = "Gender",
-       y = "Mean AMP score") +
-  coord_flip()+
-  theme_linedraw() 
+       y = "Mean Self-Report Score") +
+  coord_flip() + # Swapping X and Y axes
+  theme_linedraw()
 
 
 ```
