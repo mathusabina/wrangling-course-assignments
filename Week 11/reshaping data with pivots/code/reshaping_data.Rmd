@@ -35,10 +35,12 @@ dir.create("plots")
 library(dplyr)
 library(tidyr)
 library(tibble)
+devtools::install_github("debruine/faux")
 library(faux)
 library(janitor)
 library(ggplot2)
 library(scales)
+install.packages("psych")
 library(psych)
 library(readr)
 library(knitr)
@@ -135,6 +137,7 @@ ggplot(data_long, aes(x = response)) +
   theme_linedraw() +
   facet_wrap(~ item)
 
+
 ```
 
 - What other ways could you specify this pivot_longer call's arguments?
@@ -173,6 +176,11 @@ data_wide_again <- data_long %>%
 
 data_item_and_sum_scores <- data_wide_again %>%
   left_join(sum_scores, by = "id")
+
+ggplot(data_item_and_sum_scores, aes(x = response)) +
+  geom_histogram(binwidth = 1, boundary = -0.5) +
+  theme_linedraw() +
+  facet_wrap(~ item)
 
 ```
 
