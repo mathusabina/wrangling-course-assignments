@@ -30,8 +30,11 @@ library(faux)
 library(lme4)
 library(ggplot2)
 library(scales)
+devtools::install_github("easystats/modelbased")
 library(modelbased)
+install.packages("see")
 library(see)
+install.packages("lavaan")
 library(lavaan)
 
 ```
@@ -46,7 +49,8 @@ Dependent variables (the thing caused or predicted) are to the left of `~` where
 
 Intercepts are specified as 1. E.g., `y ~ 1 + x`. Note that intercepts are often implicit, and are usually calculated even if not specified. i.e., `y ~ x` == `y ~ 1 + x`
 
-Understand beta regression coefficients by going back to your high school math for the slope of a line: $y = m \times x + c$. This can be rewritten by swapping the place of the intercept (c) and slope (m), relabeling the variables, and adding the error term: $y \sim \beta_i + \beta_xx + e$.
+Understand beta regression coefficients by going back to your high school math for the slope of a line: $y = m \times x + c$. This can be rewritten by swapping the place of the intercept (c) and slope (m), relabeling the variables, and adding the error term: $y \sim \beta_i + \beta_xx + e$.  
+# go over with the mouse
 
 
 **Multilevel models: Fixed vs random effects**
