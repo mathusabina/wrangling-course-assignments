@@ -190,7 +190,20 @@ Wrangle the demographics data included in this exercise more efficiently by resh
 
 ```{r}
 
+data_demographics_raw <- read_csv("../data/raw/data_demographics_raw.csv") 
+data_demographics_raw |>
+  count(subject) |>
+  arrange(desc(n))
 
+data_clean <- data_demographics_raw |>
+  # rename for clarity
+  rename(unique_id = subject, item = trialcode) |>
+  # select useful columns
+  select(unique_id, item, response)
+
+data_wide<- data_clean %>%
+  pivot_wider(names_from = item,
+              values_from = response)
 
 ```
 
