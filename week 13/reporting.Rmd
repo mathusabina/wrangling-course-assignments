@@ -26,6 +26,7 @@ options(es.use_symbols = TRUE) # get nice symbols when printing (on Windows requ
 
 library(dplyr)
 library(readr)
+install.packages("easystats")
 library(report) # part of {easystats}
 library(see) # part of {easystats}
 library(parameters) # part of {easystats}
@@ -97,14 +98,14 @@ report(model)
 
 # table in html format - needs to be rounded manually
 report_table(model) |>
-  mutate(p = insight::format_p(p)) |>
+  mutate(p = insight::format_p(p))|> #nach APA
   mutate_if(is.numeric, round_half_up, digits = 2) |>
   kable() |>
   kable_classic(full_width = FALSE)
 
 ```
 
-### Many 
+### Many
 
 ```{r}
 
@@ -301,4 +302,3 @@ plot(res_het)
 sessionInfo()
 
 ```
-
